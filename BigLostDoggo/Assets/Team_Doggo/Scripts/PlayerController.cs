@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour
 
     if (Input.GetKeyDown(KeyCode.M))
     {
-      Knockback(3, new Vector3(0, 1, 0));
+      Knockback(3, new Vector3(0, 0, 0));
     }
 
     _controller.move(velocity * Time.deltaTime);
@@ -245,11 +245,11 @@ public class PlayerController : MonoBehaviour
     }
     else
     {
-      velocity += StoredKnockback * Time.deltaTime;
+      velocity -= StoredKnockback * (Time.deltaTime * 10);
     }
 
-    StoredKnockback.x -= Time.deltaTime * 10000;
-    StoredKnockback.y -= Time.deltaTime * 10000;
+    StoredKnockback.x -= Time.deltaTime * 10;
+    StoredKnockback.y -= Time.deltaTime * 10;
 
     if (StoredKnockback.x <= 0) StoredKnockback.x = 0;
     if (StoredKnockback.y <= 0) StoredKnockback.y = 0;
@@ -268,9 +268,6 @@ public class PlayerController : MonoBehaviour
 
     source = gameObject.transform.position - source;
 
-    source.y = Mathf.Abs(source.y);
-    source.y += (Mathf.Abs(source.x) + source.y) / 2;
-
     source.Normalize();
     source *= force;
 
@@ -279,6 +276,7 @@ public class PlayerController : MonoBehaviour
 
   void OnTakeKnockback(DamagePacket pack)
   {
+    print("IMAFUKBOI");
     Knockback(pack._knockback_value, pack._source.transform.position);
   }
 
