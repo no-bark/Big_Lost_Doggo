@@ -6,8 +6,11 @@ using System;
 public class BehaviorManager : MonoBehaviour {
 
     List<BasicAIBehavior> behaviorsList = new List<BasicAIBehavior>();
-	// Use this for initialization
-	void Start ()
+
+    public BasicAIBehavior actingBehavior = null;
+
+    // Use this for initialization
+    void Start ()
     {
         behaviorsList.Sort(new BehaviorCompare());
 	}
@@ -20,6 +23,12 @@ public class BehaviorManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        if(actingBehavior != null)
+        {
+            actingBehavior.AIUpdate();
+            return;
+        }
+
         //loop through our behaviors this frame
 		for(int i = 0; i < behaviorsList.Count; ++i)
         {
