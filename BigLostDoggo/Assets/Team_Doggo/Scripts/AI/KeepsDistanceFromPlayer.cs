@@ -10,6 +10,11 @@ public class KeepsDistanceFromPlayer : BasicAIBehavior
     public float speed = 2.0f;
     public float desiredDist = 4.0f;
     public float LocationUpdateFrequency = 0.2f;
+    
+    Vector3 CurFloatDirection;
+
+    public float wanderSpeed;
+    public float randSpeed;
 
     Coroutine updateCoroutine;
 	// Use this for initialization
@@ -23,13 +28,12 @@ public class KeepsDistanceFromPlayer : BasicAIBehavior
         while(true)
         {
             desiredPosition = myTargeted.target.transform.position - (myTargeted.tweenVec * this.desiredDist);
-            yield return new WaitForSeconds(LocationUpdateFrequency);
+            yield return null;// new WaitForSeconds(LocationUpdateFrequency);
         }
     }
 
     void Update()
     {
-        AIUpdate();
     }
 
     public override bool NeedsUpdate()
@@ -39,6 +43,10 @@ public class KeepsDistanceFromPlayer : BasicAIBehavior
 
     public override void AIUpdate()
     {
-        transform.position = transform.position + (desiredPosition - transform.position).normalized * (speed * (Mathf.Min((desiredPosition - transform.position).magnitude, 2) / 2));
+        transform.position = transform.position + (desiredPosition - transform.position).normalized * (speed * (Mathf.Min((desiredPosition - transform.position).magnitude, 15) / 15)) * Time.deltaTime;
+        
+        CurFloatDirection = (CurFloatDirection + new Vector3(Random.Range(-randSpeed, randSpeed), Random.Range(-randSpeed, randSpeed), Random.Range(-randSpeed, randSpeed)));
+        CurFloatDirection = CurFloatDirection.normalized;
+        transform.position = transform.position + (CurFloatDirection * (wanderSpeed)) * Time.deltaTime * (1 - (Mathf.Min((desiredPosition - transform.position).magnitude, 15) / 15));
     }
 }
