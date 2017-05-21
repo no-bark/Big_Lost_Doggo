@@ -8,7 +8,7 @@ public class Health : MonoBehaviour {
 	
 	}
 
-  void OnTakeDamage(DamagePacket packet)
+  void TakeDamage(DamagePacket packet)
   {
     gameObject.SendMessage("OnTakeKnockback", packet);
 
