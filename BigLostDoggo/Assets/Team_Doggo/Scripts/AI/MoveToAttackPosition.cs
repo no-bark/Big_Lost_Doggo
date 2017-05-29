@@ -13,11 +13,13 @@ public class MoveToAttackPosition : BasicAIBehavior
 
     bool cooldown = false;
     bool attacking = false;
+    Rigidbody2D myBody;
 
     void Start()
     {
         myTargeted = GetComponent<Targeted>();
         myBehaviorManager = GetComponent<BehaviorManager>();
+        myTargeted = this.GetComponent<Targeted>();
     }
 
     void Update()
@@ -46,7 +48,7 @@ public class MoveToAttackPosition : BasicAIBehavior
     {
         if (!attacking)
         {
-            transform.position = transform.position + (myTargeted.tweenVec) * (speed * (Mathf.Min(myTargeted.tweenDist, 2)) * Time.deltaTime);
+            myBody.MovePosition(transform.position + (myTargeted.tweenVec) * (speed * (Mathf.Min(myTargeted.tweenDist, 2)) * Time.deltaTime));
             if (myTargeted.tweenDist < 1)
             {
                 print("Attack!!");
